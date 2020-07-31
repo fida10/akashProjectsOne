@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -9,7 +10,8 @@ public class Main {
 		//m.mathPrintTable();
 		//m.arrayMaxMinArray();
 		//m.arraySecondLargest();
-		m.arraySumOfArrayElements();
+		//m.arraySumOfArrayElements();
+		m.arrayAlternateOrder();
 	}
 	public void mathPrintThePattern(int n) {
 		int newN = n;
@@ -44,8 +46,57 @@ public class Main {
 		}
 		sc.close();
 	} //requirements: output should all come out together, and put in constraints for input
-	public void userGeneratedArrays(){
 
+	public List<int[]> userGeneratedArraysInt(int lowerBoundNoOfArrays, int higherBoundNoOfArrays, int lowerBoundArraySize, int higherBoundArraySize, int lowerBoundArrayElements, int higherBoundArrayElements){
+		List<int[]> listOfArrays = new ArrayList<>();
+		Scanner sc = new Scanner(System.in);
+		int noOfArrays = 0;
+		while(true) { //will check if the number of arrays provided is within the constraints of 1 and 100. If not, will repeatedly ask user for a valid number.
+			System.out.println("Enter the number of arrays to parse");
+			noOfArrays = sc.nextInt();
+			if(noOfArrays >= lowerBoundNoOfArrays && noOfArrays <= higherBoundNoOfArrays){
+				System.out.println("Valid number of arrays, continuing.");
+				break;
+			} else {
+				System.out.println("Invalid entry, please try again");
+			}
+		}
+
+		for (int i = 0; i < noOfArrays; i++) { //loops through each individual array
+			int sizeOfArray = 0;
+			while(true) { //will check if the size of array provided is within the constraints of 1 and 1000. If not, will repeatedly ask user for a valid number.
+				System.out.println("Enter the size of array number: " + (i + 1));
+				sizeOfArray = sc.nextInt();
+				if(sizeOfArray >= lowerBoundArraySize && sizeOfArray <=higherBoundArraySize){
+					System.out.println("Valid number of elements within array, continuing.");
+					break;
+				} else {
+					System.out.println("Invalid entry! Please try again");
+				}
+			}
+			int currentArray[];
+			currentArray = new int[sizeOfArray]; //creates an array of the desired size
+
+			for (int j = 0; j < sizeOfArray; j++) {
+				int currentElementToAddToArray = 0;
+				while(true) { //will check if the element to put into array is within the constraints of 1 and 10^12. If not, will repeatedly ask user for a valid number.
+					System.out.println("Add element of index number: " + j + " to the array");
+					currentElementToAddToArray = sc.nextInt();
+					if(currentElementToAddToArray >= lowerBoundArrayElements && currentElementToAddToArray <= higherBoundArrayElements){
+						System.out.println("Valid element given, continuing");
+						break;
+					} else {
+						System.out.println("Invalid number! Try again.");
+					}
+				}
+				currentArray[j] = currentElementToAddToArray;
+			}
+			System.out.println(Arrays.toString(currentArray)); //converts the array to a string for printing
+			System.out.println("Adding this array to the list.");
+			listOfArrays.add(currentArray);
+			//create a list, store the arrays taken from the program into the list, and then return the list. A list of arrays.
+		}
+		return listOfArrays;
 	}
 	public void arrayMaxMinArray(){
 
@@ -244,6 +295,19 @@ public class Main {
 				sum += currentNo;
 			}
 			System.out.println("The sum of elements in this array is: " + sum);
+		}
+	}
+	public void arrayAlternateOrder(){
+		List<int[]> listOfArraysInt = userGeneratedArraysInt(1, 200, 1, 100000, 1, 100000);
+		for (int i = 0; i < listOfArraysInt.size(); i++) { //loops thru the list, to get to each array within the list
+			int[] currentArray = listOfArraysInt.get(i);
+			String alternateArray = "";
+			for(int j = 0; j < currentArray.length; j++){ //loops thru the elements of the array itself
+				if((j + 2) % 2 == 0) { //the index is even! so we will want to add this to the string to print out
+					alternateArray += currentArray[j] + " ";
+				}
+			}
+			System.out.println("Alternate array: " + alternateArray);
 		}
 	}
 }
